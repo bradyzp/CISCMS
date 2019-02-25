@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>course</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                Users will navigate to a course page for each of their individual courses, the course page will display
+                information
+                similar to what is shown in the prompt's excel spreadsheet report.
+
+                Users will then be able to upload files to the page, view documents, add notes etc.
+            </div>
+        </div>
+        <div class="row">
+            <div class="col text-center">
+                <h2>Course Overview</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 d-flex align-items-stretch" th:each="course : ${courses}">
+                <div class="card my-2 flex-fill">
+                    <div class="card-body">
+                        <a href="#" th:href="@{/course/{id}(id=${course.id})}">
+                            <h4 class="card-title" th:text="${course.title}"></h4>
+                        </a>
+                        <h5 class="text-muted" th:text="${course.code}"></h5>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+                <a class="btn btn-primary" href="#" th:href="@{/course/create}">Add Course</a>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>  

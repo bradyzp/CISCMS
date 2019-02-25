@@ -1,6 +1,7 @@
 buildscript {
     ext {
         springBootVersion = '2.1.2.RELEASE'
+        awsVersion = '2.4.7'
     }
     repositories {
         mavenCentral()
@@ -10,9 +11,16 @@ buildscript {
     }
 }
 
+plugins {
+    id "org.flywaydb.flyway" version "5.2.4"
+}
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+
+libsDirName = '../dist'
+
 
 group = 'net.nsnsns'
 version = '0.0.1-SNAPSHOT'
@@ -22,15 +30,32 @@ repositories {
     mavenCentral()
 }
 
+dependencyManagement {
+    imports {
+        mavenBom "software.amazon.awssdk:bom:2.4.7"
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.session:spring-session-core'
-    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.security:spring-security-data'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation "software.amazon.awssdk:cognitoidentityprovider:${awsVersion}"
     compileOnly 'org.projectlombok:lombok'
+    runtime 'org.flywaydb:flyway-core'
+//    runtime 'com.h2database:h2'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
+    runtime 'org.postgresql:postgresql'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+jar {
+    baseName = "ciscms"
+    enabled=true
 }
