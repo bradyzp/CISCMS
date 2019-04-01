@@ -11,5 +11,6 @@ hooks:
   BeforeInstall:
     - location: deploy/stop.sh
       runas: root
+  AfterInstall:
     - location: deploy/install.sh
       runas: root
