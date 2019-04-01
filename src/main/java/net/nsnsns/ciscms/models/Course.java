@@ -20,7 +20,7 @@ public class Course implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     /**
      * Relational mappings
@@ -35,7 +35,7 @@ public class Course implements Serializable {
     @ToString.Exclude
     private List<Gradeable> gradeables = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @ToString.Exclude
     private Instructor instructor;
 
@@ -51,6 +51,7 @@ public class Course implements Serializable {
     private LocalTime startTime;
     private LocalTime endTime;
     private boolean isCurrent;
+    private Float calculatedGrade;
 
     public float getCurrentGrade() {
         return gradeables.stream()

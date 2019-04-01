@@ -18,10 +18,13 @@ import java.util.Date;
 public class Gradeable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     private Course course;
+
+    @ManyToOne
+    private Student owner;
 
     private String title;
     private int weight;
