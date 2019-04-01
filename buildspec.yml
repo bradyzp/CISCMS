@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - gradle build jar
+artifacts:
+  files:
+    - 'dist/*.jar'
+    - 'deployscripts/*'
+    - 'appspec.yml'
+name: ns3-$(date +%Y-%m-%d).zip
+discard-paths: no

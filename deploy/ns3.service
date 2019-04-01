@@ -1,0 +1,12 @@
+[Unit]
+Description=NS3 Course Management System
+
+[Service]
+Type=simple
+ExecStart=/opt/ns3/java -jar latest.jar
+User=ns3
+SyslogIdentifier=ns3
+WorkingDirectory=/opt/ns3/
+
+[Install]
+WantedBy=networking.target
