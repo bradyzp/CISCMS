@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Template</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">Authentication Challenge</div>
+            <div class="alert alert-danger" th:if="${#httpServletRequest.getParameter('error')}">Error Occurred
+                Registering an Account
+            </div>
+            <div class="card-body">
+                <form action="#" class="w-50" id="challengeForm" method="post" th:action="@{/challenge}">
+                    <div class="form-group" th:if="${#lists.contains(fields, 'email')}">
+                        <label for="email">Email</label>
+                        <input class="form-control" id="email" name="email" required type="email">
+                    </div>
+                    <div class="form-group" th:if="${#lists.contains(fields, 'username')}">
+                        <label for="username">Username</label>
+                        <input class="form-control" id="username" name="userName" required type="text">
+                    </div>
+                    <div class="form-group" th:if="${#lists.contains(fields, 'confirmCode')}">
+                        <label for="verificationCode">Verification Code</label>
+                        <input class="form-control" id="verificationCode" name="confirmCode" required type="text">
+                    </div>
+                    <div class="form-group" th:if="${#lists.contains(fields, 'newPassword')}">
+                        <label for="newPassword">New Password</label>
+                        <input class="form-control" id="newPassword" name="newPassword" required type="password">
+                    </div>
+                    <div class="form-group" th:if="${#lists.contains(fields, 'newPassword')}">
+                        <label for="verifyPassword">Verify Password</label>
+                        <input class="form-control" id="verifyPassword" name="verifyPassword" required type="password">
+                    </div>
+                    <input class="btn btn-success" type="submit" value="submit">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <script>
+        // const pw1 = document.getElementById('password');
+        // const pw2 = document.getElementById('passwordVerify');
+        // function checkPasswordMatch() {
+        //     if(pw1.value !== pw2.value) {
+        //         console.debug('passwords dont match');
+        //
+        //         pw2.setCustomValidity("Password must match");
+        //     } else {
+        //         pw2.setCustomValidity("");
+        //     }
+        // }
+    </script>
+
+</main>
+</body>
+</html>  

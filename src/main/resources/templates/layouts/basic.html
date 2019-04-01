@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:fragment="layout(content)"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CIS CMS</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="#" rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+<nav class="navbar navbar-light bg-light navbar-expand-sm mb-3">
+    <div class="container">
+        <a class="navbar-brand" href="#" th:href="@{/}">NS3 CMS</a>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="#" th:href="@{/course}">Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"
+                                    sec:authorize="isAuthenticated()"
+                                    th:href="@{/profile}">Profile</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"
+                                    sec:authorize="!isAuthenticated()"
+                                    th:href="@{/login}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"
+                                    sec:authorize="isAuthenticated()"
+                                    th:href="@{/logout}">Logout</a></li>
+
+        </ul>
+    </div>
+</nav>
+<main th:replace="${content}">
+
+</main>
+</body>
+</html>  

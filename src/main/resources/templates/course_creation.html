@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>course_creation</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <form action="#" method="post" th:action="@{/course/create}" th:object="${course}">
+                    <div class="form-group">
+                        <label for="courseName">Course Name</label>
+                        <input class="form-input" id="courseName" th:field="*{title}" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseBldg">Course Building</label>
+                        <input class="form-input" id="courseBldg" th:field="*{building}" type="text">
+                    </div>
+                    <button class="btn btn-primary" type="submit">Create</button>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+</main>
+</body>
+</html>  

@@ -1,11 +1,43 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Index</title>
 </head>
 <body>
-This is the homepage, anyone can view this page which will provide links to login or register for an account.
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            Computer Information Systems - Course Management System (CISCMS)
+                        </h2>
+                        <p>
+                            This is the homepage, anyone can view this page which will provide links to login or
+                            register for an
+                            account.
 
+                        </p>
+                        <ul>
+                            <li><a href="#" th:href="@{/register}">Register for an account</a></li>
+                            <li><a href="#" th:href="@{/login}">Login</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4" sec:authorize="!isAuthenticated()">
+                <th:block th:replace="user/login :: login"/>
+            </div>
+
+        </div>
+    </div>
+
+</main>
 
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>course_detail</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="card shadow border-0 mt-3">
+            <div class="card-header text-center">
+                <a class="btn btn-info float-left" href="#" th:href="@{/course/{id}/edit(id=${course.id})}">Edit
+                    Course</a>
+                <h2 class="d-inline" th:text="${course.title}"></h2>
+                <a class="btn btn-warning float-right" href="#" th:href="@{/course}">Back to Courses</a>
+            </div>
+            <div class="card-body">
+                <div class="row mb-5">
+                    <div class="col">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Course</th>
+                                <th scope="col">Code</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Current Course</th>
+                                <th scope="col">Term</th>
+                                <th scope="col">Year</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td th:text="${course.title}"></td>
+                                <td th:text="${course.code}"></td>
+                                <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <table class="table w-75">
+                            <thead>
+                            <tr>
+                                <th scope="col">Rubric</th>
+                                <th scope="col">Weight</th>
+                                <th scope="col">Grade</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Optional</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="gradeable : ${course.gradeables}">
+                                <td><a href="#" th:href="@{/rubric/{id}(id=3)}" th:text="${gradeable.title}"></a></td>
+                                <td th:text="${gradeable.weight}"></td>
+                                <td th:text="${gradeable.grade}"></td>
+                                <td th:text="${#dates.format(gradeable.dueDatetime, 'dd-MMM-yy')}"></td>
+                                <td th:text="${gradeable.optional}"></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Total</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <a class="btn btn-success" href="#">Add Document</a>
+                <div class="card-columns mt-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Handout 1</h5>
+                        </div>
+                    </div>
+                </div>
+
+                <img alt="" class="img-fluid mt-5" src="#" th:src="@{/images/course_mock.jpg}" width="500">
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>  

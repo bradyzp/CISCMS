@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>course_edit</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="card shadow border-0 mt-3">
+            <form method="post" th:action="@{/course/{id}/edit(id=${course.id})}" th:object="${course}">
+                <input hidden th:field="*{id}">
+                <input hidden th:field="*{student}">
+                <div class="card-header text-center">
+                    <button class="btn btn-success float-left" type="submit">Save</button>
+                    <h2 class="d-inline" th:text="${course.title}"></h2>
+                    <a class="btn btn-danger float-right" href="#" th:href="@{/course/{id}(id=${course.id})}">Cancel</a>
+                </div>
+
+                <div class="card-body">
+                    <div class="row mb-5">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Current Course</th>
+                                    <th scope="col">Term</th>
+                                    <th scope="col">Year</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <input class="form-control" placeholder="Course Title" th:field="*{title}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Course Code" th:field="*{code}">
+                                    </td>
+                                    <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
+                                    <td>
+                                        <select class="form-control" th:field="*{current}">
+                                            <option value="true">Yes</option>
+                                            <option value="false">No</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control">
+                                            <option value="spring">Spring</option>
+                                            <option value="summer">Summer</option>
+                                            <option value="fall">Fall</option>
+                                            <option value="winter">Winter</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="year" type="number">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <table class="table w-75">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Weight</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Optional</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="item, itemStat : *{gradeables}">
+                                    <input hidden th:field="*{gradeables[__${itemStat.index}__].id}">
+                                    <td th:text="${itemStat.index}"></td>
+                                    <td>
+                                        <input class="form-control" placeholder="Name"
+                                               th:field="*{gradeables[__${itemStat.index}__].title}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Weight"
+                                               th:field="*{gradeables[__${itemStat.index}__].weight}"
+                                               type="number">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Grade"
+                                               th:field="*{gradeables[__${itemStat.index}__].grade}"
+                                               type="number">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Due Date"
+                                               th:field="*{gradeables[__${itemStat.index}__].dueDatetime}"
+                                               type="date">
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input class="custom-control-input"
+                                                   th:field="*{gradeables[__${itemStat.index}__].optional}"
+                                                   th:id="'opt' + ${itemStat.index}"
+                                                   type="checkbox">
+                                            <label class="custom-control-label"
+                                                   th:for="'opt' + ${itemStat.index}"></label>
+                                        </div>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-info" name="addRow" type="submit">Add Row</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+</body>
+</html>  
