@@ -23,7 +23,7 @@ libsDirName = '../dist'
 
 
 group = 'net.nsnsns'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0-SNAPSHOT'
 sourceCompatibility = '11'
 
 repositories {
