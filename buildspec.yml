@@ -7,7 +7,7 @@ phases:
 artifacts:
   files:
     - 'dist/*.jar'
-    - 'deployscripts/*'
+    - 'deploy/*'
     - 'appspec.yml'
 name: ns3-$(date +%Y-%m-%d).zip
 discard-paths: no
