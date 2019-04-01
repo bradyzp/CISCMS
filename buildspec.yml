@@ -6,7 +6,7 @@ phases:
       - gradle build jar
 artifacts:
   files:
-    - 'dist/*.jar'
+    - 'build/libs/*.jar'
     - 'deploy/*'
     - 'appspec.yml'
 name: ns3-$(date +%Y-%m-%d).zip

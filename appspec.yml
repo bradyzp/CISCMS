@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: dist/
+  - source: build/libs/*.jar
     destination: /opt/ns3/dist/
   - source: deploy/ns3.service
     destination: /etc/systemd/system/
