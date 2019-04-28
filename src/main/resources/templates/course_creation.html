@@ -10,23 +10,117 @@
 <body>
 <main>
     <div class="container">
-        <div class="card">
-            <div class="card-body">
-                <form action="#" method="post" th:action="@{/course/create}" th:object="${course}">
+        <form action="#" method="post" th:action="@{/course/create}" th:object="${course}">
+            <div class="card w-75">
+                <div class="card-body">
+                    <h3 class="card-title">Create Course</h3>
+
                     <div class="form-group">
-                        <label for="courseName">Course Name</label>
-                        <input class="form-input" id="courseName" th:field="*{title}" type="text">
+                        <label for="semester">Semester</label>
+                        <div class="input-group">
+                            <select class="form-control" id="semester" th:field="*{semester.id}">
+                                <option th:each="sem : ${semesters}"
+                                        th:text="${sem.toString()}"
+                                        th:value="${sem.id}">Semester Option
+                                </option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-info" formnovalidate name="addSemester" type="submit">Add
+                                    Semester
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="instructor">Instructor</label>
+                        <div class="input-group">
+                            <select class="form-control" id="instructor" th:field="*{instructor.id}">
+                                <option th:each="instructor : ${instructors}"
+                                        th:text="${instructor.toString()}"
+                                        th:value="${instructor.id}">Instructor Option
+                                </option>
+                            </select>
+                            <div class="input-group-append">
+                                <button class="btn btn-info" formnovalidate name="addInstructor" type="submit">Add
+                                    Instructor
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseName">Course Name*</label>
+                        <input class="form-control" id="courseName" required th:field="*{title}" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseCode">Course Code*</label>
+                        <input class="form-control" id="courseCode" required th:field="*{code}" type="text">
+                        <small class="form-text text-muted">Course Subject/Code e.g. CIS 4050</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseRef">CRN (Course Reference Number)*</label>
+                        <input class="form-control" id="courseRef" pattern="^\d{5}$" required th:field="*{crn}"
+                               type="text">
                     </div>
                     <div class="form-group">
                         <label for="courseBldg">Course Building</label>
-                        <input class="form-input" id="courseBldg" th:field="*{building}" type="text">
+                        <input class="form-control" id="courseBldg" th:field="*{building}" type="text">
                     </div>
-                    <button class="btn btn-primary" type="submit">Create</button>
-                </form>
-
+                    <div class="form-group">
+                        <label for="courseRoom">Course Room</label>
+                        <input class="form-control" id="courseRoom" th:field="*{room}" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label for="startTime">Start Time*</label>
+                        <input class="form-control" id="startTime" required th:field="*{startTime}" type="time">
+                    </div>
+                    <div class="form-group">
+                        <label for="endTime">End Time*</label>
+                        <input class="form-control" id="endTime" required th:field="*{endTime}" type="time">
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Scheduled Days</h4>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="monday" th:field="*{weekschedule.monday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="monday">Monday</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="tuesday" th:field="*{weekschedule.tuesday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="tuesday">Tuesday</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="wednesday" th:field="*{weekschedule.wednesday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="wednesday">Wednesday</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="thursday" th:field="*{weekschedule.thursday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="thursday">Thursday</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="friday" th:field="*{weekschedule.friday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="friday">Friday</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="saturday" th:field="*{weekschedule.saturday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="saturday">Saturday</label>
+                            </div>
+                            <div class="form-group form-check">
+                                <input class="form-check-input" id="sunday" th:field="*{weekschedule.sunday}"
+                                       type="checkbox">
+                                <label class="form-check-label" for="sunday">Sunday</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" name="save" type="submit">Create</button>
+                </div>
             </div>
-        </div>
-
+        </form>
     </div>
 
 </main>

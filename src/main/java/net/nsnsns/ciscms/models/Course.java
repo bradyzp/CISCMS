@@ -31,13 +31,21 @@ public class Course implements Serializable {
     private Student student;
 
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @OrderBy("dueDatetime asc")
+    @OrderBy("dueDate asc")
     @ToString.Exclude
     private List<Gradeable> gradeables = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @ToString.Exclude
     private Instructor instructor;
+
+    @ManyToOne
+    @ToString.Exclude
+    private Semester semester;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ToString.Exclude
+    private CourseWeekSchedule weekschedule = new CourseWeekSchedule();
 
     /**
      * Fields
@@ -50,6 +58,7 @@ public class Course implements Serializable {
     private String room;
     private LocalTime startTime;
     private LocalTime endTime;
+
     private boolean isCurrent;
     private Float calculatedGrade;
 

@@ -14,6 +14,8 @@
             <form method="post" th:action="@{/course/{id}/edit(id=${course.id})}" th:object="${course}">
                 <input hidden th:field="*{id}">
                 <input hidden th:field="*{student}">
+                <input hidden th:field="*{semester.id}">
+                <input hidden th:field="*{instructor.id}">
                 <div class="card-header text-center">
                     <button class="btn btn-success float-left" type="submit">Save</button>
                     <h2 class="d-inline" th:text="${course.title}"></h2>
@@ -30,8 +32,7 @@
                                     <th scope="col">Code</th>
                                     <th scope="col">Grade</th>
                                     <th scope="col">Current Course</th>
-                                    <th scope="col">Term</th>
-                                    <th scope="col">Year</th>
+                                    <th scope="col">Semester</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -50,15 +51,11 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <select class="form-control">
-                                            <option value="spring">Spring</option>
-                                            <option value="summer">Summer</option>
-                                            <option value="fall">Fall</option>
-                                            <option value="winter">Winter</option>
+                                        <select class="form-control" th:field="*{semester.id}">
+                                            <option th:each="semester : ${semesters}" th:text="${semester.toString()}"
+                                                    th:value="${semester.id}">Semester
+                                            </option>
                                         </select>
-                                    </td>
-                                    <td>
-                                        <input class="form-control" placeholder="year" type="number">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -100,7 +97,7 @@
                                     </td>
                                     <td>
                                         <input class="form-control" placeholder="Due Date"
-                                               th:field="*{gradeables[__${itemStat.index}__].dueDatetime}"
+                                               th:field="*{gradeables[__${itemStat.index}__].dueDate}"
                                                type="date">
                                     </td>
                                     <td>

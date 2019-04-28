@@ -13,8 +13,8 @@ VALUES (1, time '13:00' AT TIME ZONE 'MST', time '16:00' AT TIME ZONE 'MST', 'MO
 INSERT INTO office_hours_block (instructor_id, start_time, end_time, day_of_week)
 VALUES (1, time '13:00' AT TIME ZONE 'MST', time '16:00' AT TIME ZONE 'MST', 'WEDNESDAY');
 
-INSERT INTO semester (year, start_date, end_date)
-VALUES (2019, '2019-01-23', '2019-05-11');
+INSERT INTO semester (owner_id, year, season, start_date, end_date)
+VALUES (1, 2019, 1, '2019-01-23', '2019-05-11');
 
 INSERT INTO course (semester_id, student_id, instructor_id, title, code, crn, building, room, start_time, end_time,
                     is_current)

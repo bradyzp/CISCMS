@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>edit_semester</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <div class="card w-50">
+            <div class="card-body">
+                <h4>Add New Semester</h4>
+                <form action="#" method="post" th:action="@{/course/create}" th:object="${semester}">
+                    <div class="row">
+                        <div class="col">
+                            <label for="year">Year:</label>
+                            <input class="form-control" id="year" placeholder="Year" th:field="*{year}" type="text">
+                            <label for="season">Season:</label>
+                            <select class="custom-select" id="season" name="season" th:field="*{season}">
+                                <option th:each="opt : *{getSeasons()}" th:text="${opt.toString()}"
+                                        th:value="${opt}"></option>
+                            </select>
+                            <label for="startDate">Start Date:</label>
+                            <input class="form-control" id="startDate" th:field="*{startDate}" type="date">
+                            <label for="endDate">End Date:</label>
+                            <input class="form-control" id="endDate" th:field="*{endDate}" type="date">
+                            <a class="btn btn-danger mt-2" th:href="@{/course/create}" type="button">Cancel</a>
+                            <input class="btn btn-success mt-2" name="createSemester" type="submit" value="Create">
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</main>
+</body>
+</html>  

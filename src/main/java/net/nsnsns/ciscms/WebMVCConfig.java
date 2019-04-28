@@ -1,5 +1,6 @@
 package net.nsnsns.ciscms;
 
+import net.nsnsns.ciscms.protocols.TimeConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -52,6 +53,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(final FormatterRegistry registry) {
         registry.addFormatter(new DateFormatter("yyyy-MM-dd"));
+        registry.addConverter(new TimeConverter());
 
     }
 }

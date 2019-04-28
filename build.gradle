@@ -44,6 +44,7 @@ dependencies {
     implementation 'org.springframework.security:spring-security-data'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     implementation "software.amazon.awssdk:cognitoidentityprovider:${awsVersion}"
+    implementation "org.hibernate:hibernate-java8:5.1.0.Final"
     compileOnly 'org.projectlombok:lombok'
     runtime 'org.flywaydb:flyway-core'
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'

@@ -31,7 +31,9 @@ public class Gradeable {
     private float grade;
 
     @DateTimeFormat(pattern = "YYYY-MM-dd")
-    private Date dueDatetime;
+    private Date dueDate;
+
+    private Timestamp dueTime;
 
     private boolean optional;
 

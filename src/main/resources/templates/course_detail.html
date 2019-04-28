@@ -18,7 +18,7 @@
                 <a class="btn btn-warning float-right" href="#" th:href="@{/course}">Back to Courses</a>
             </div>
             <div class="card-body">
-                <div class="row mb-5">
+                <div class="row mb-3">
                     <div class="col">
                         <table class="table">
                             <thead>
@@ -27,8 +27,7 @@
                                 <th scope="col">Code</th>
                                 <th scope="col">Grade</th>
                                 <th scope="col">Current Course</th>
-                                <th scope="col">Term</th>
-                                <th scope="col">Year</th>
+                                <th scope="col">Semester</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -36,18 +35,31 @@
                                 <td th:text="${course.title}"></td>
                                 <td th:text="${course.code}"></td>
                                 <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
+                                <td th:text="${course.current}"></td>
+                                <td th:text="${course.semester.toString()}"></td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
+                <!--/* Instructor Link */-->
+                <div class="row mb-3" th:if="${course.instructor != null}">
+                    <div class="col">
+                        <h4>Course Instructor: </h4>
+                        <span th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></span>
+                        <span th:text="'Tel: ' + ${course.instructor.phone}"></span>
+
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col">
+                        <h4>Tests/Assignments</h4>
                         <table class="table w-75">
                             <thead>
                             <tr>
-                                <th scope="col">Rubric</th>
+                                <th scope="col">Title</th>
                                 <th scope="col">Weight</th>
                                 <th scope="col">Grade</th>
                                 <th scope="col">Date</th>
@@ -59,7 +71,7 @@
                                 <td><a href="#" th:href="@{/rubric/{id}(id=3)}" th:text="${gradeable.title}"></a></td>
                                 <td th:text="${gradeable.weight}"></td>
                                 <td th:text="${gradeable.grade}"></td>
-                                <td th:text="${#dates.format(gradeable.dueDatetime, 'dd-MMM-yy')}"></td>
+                                <td th:text="${#dates.format(gradeable.dueDate, 'dd-MMM-yy')}"></td>
                                 <td th:text="${gradeable.optional}"></td>
                             </tr>
                             <tr>
@@ -73,16 +85,21 @@
                         </table>
                     </div>
                 </div>
-                <a class="btn btn-success" href="#">Add Document</a>
-                <div class="card-columns mt-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Handout 1</h5>
+                <div class="row">
+                    <div class="col">
+                        <h4>Documents & Handouts</h4>
+                        <a class="btn btn-success" href="#">Add Document</a>
+                        <div class="card-columns mt-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Handout 1</h5>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <img alt="" class="img-fluid mt-5" src="#" th:src="@{/images/course_mock.jpg}" width="500">
+                <!--                <img alt="" class="img-fluid mt-5" src="#" th:src="@{/images/course_mock.jpg}" width="500">-->
             </div>
         </div>
     </div>

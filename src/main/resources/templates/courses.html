@@ -11,17 +11,19 @@
 <main>
     <div class="container">
         <div class="row">
-            <div class="col">
-                Users will navigate to a course page for each of their individual courses, the course page will display
-                information
-                similar to what is shown in the prompt's excel spreadsheet report.
-
-                Users will then be able to upload files to the page, view documents, add notes etc.
-            </div>
         </div>
         <div class="row">
             <div class="col text-center">
                 <h2>Course Overview</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                Current Semester: <span>Semester Placeholder</span>
+
+            </div>
+            <div class="col-sm-6">
+                <a class="btn btn-primary float-right" href="#" th:href="@{/course/create}">Add Course</a>
             </div>
         </div>
         <div class="row">
@@ -35,12 +37,6 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-
-                <a class="btn btn-primary" href="#" th:href="@{/course/create}">Add Course</a>
             </div>
         </div>
     </div>

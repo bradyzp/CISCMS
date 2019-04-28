@@ -1,8 +1,9 @@
 package net.nsnsns.ciscms.controllers;
 
-import net.nsnsns.ciscms.models.Course;
-import net.nsnsns.ciscms.models.Gradeable;
+import net.nsnsns.ciscms.models.*;
 import net.nsnsns.ciscms.services.CourseService;
+import net.nsnsns.ciscms.services.InstructorService;
+import net.nsnsns.ciscms.services.SemesterService;
 import net.nsnsns.ciscms.services.StudentService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,47 +11,65 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/course")
 public class CourseController {
+    private static final String COURSES_OVERVIEW = "courses";
+    private static final String COURSE_DETAIL = "course_detail";
+    private static final String COURSE_EDIT = "course_edit";
+    private static final String COURSE_CREATE = "course_creation";
+    private static final String COURSES_REDIRECT = "redirect:/courses";
+    private static final String COURSE_CREATE_REDIRECT = "redirect:/course/create";
+    private static final String INSTRUCTOR_EDIT = "edit_instructor";
+    private static final String SEMESTER_EDIT = "edit_semester";
+
     private final CourseService courseService;
     private final StudentService studentService;
+    private final SemesterService semesterService;
+    private final InstructorService instructorService;
 
-    CourseController(CourseService courseService, StudentService studentService) {
+    CourseController(CourseService courseService, StudentService studentService, SemesterService semesterService, InstructorService instructorService) {
         this.courseService = courseService;
         this.studentService = studentService;
+        this.semesterService = semesterService;
+        this.instructorService = instructorService;
     }
 
     @GetMapping
     public String courseOverview(Model model) {
+        model.addAttribute("student", studentService.getAuthenticatedStudent().orElseThrow());
         model.addAttribute("courses", courseService.getCourses());
-//        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return "courses";
+
+        return COURSES_OVERVIEW;
     }
 
     @GetMapping("/{id}")
-    public String courseDetail(@PathVariable(name = "id") Integer id, Model model) {
+    public String courseDetail(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
         Optional<Course> course = courseService.getCourse(id);
 
         if (course.isPresent()) {
             model.addAttribute("course", course.get());
-            return "course_detail";
-        }
 
-        System.out.println(String.format("Course by id %d doesn't exist", id));
-        return "redirect:/course";
+            return COURSE_DETAIL;
+        } else {
+            redirectAttributes.addFlashAttribute("warning", "Course not found");
+            return COURSES_REDIRECT;
+        }
     }
 
     @GetMapping("/{id}/edit")
     public String editCourse(@PathVariable(name = "id") Integer id, Model model) {
-        Course course = courseService.getCourse(id).orElseThrow();
+        final Course course = courseService.getCourse(id).orElseThrow();
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         model.addAttribute("course", course);
+        model.addAttribute("semesters", semesterService.getStudentSemesters(student));
 
-
-        return "course_edit";
+        return COURSE_EDIT;
     }
 
     @PostMapping(value = "/{cid}/edit", params = {"addRow"})
@@ -61,7 +80,7 @@ public class CourseController {
         g.setOwner(studentService.getAuthenticatedStudent().orElseThrow());
         course.getGradeables().add(g);
 
-        return "course_edit";
+        return COURSE_EDIT;
     }
 
     @PostMapping(value = "/{cid}/edit")
@@ -75,14 +94,60 @@ public class CourseController {
 
     @GetMapping("/create")
     public String createCourse(Model model) {
-        model.addAttribute("course", new Course());
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
 
-        return "course_creation";
+        model.addAttribute("course", new Course());
+        model.addAttribute("semesters", semesterService.getStudentSemesters(student));
+        model.addAttribute("instructors", instructorService.getStudentInstructors(student));
+
+        return COURSE_CREATE;
     }
 
-    @PostMapping("/create")
-    public String createCourse(Course course) {
-        System.out.println("Creating course: " + course);
+    @PostMapping(value = "/create", params = {"addSemester"})
+    public String addSemester(Course course, Model model) {
+
+//        model.addAttribute("course", course);
+        model.addAttribute("semester", new Semester());
+
+        return SEMESTER_EDIT;
+    }
+
+    @PostMapping(value = "/create", params = {"createSemester"})
+    public String createSemester(Semester semester, Model model) {
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
+        semester.setOwner(student);
+        semesterService.save(semester);
+
+        return COURSE_CREATE_REDIRECT;
+    }
+
+    @PostMapping(value = "/create", params = {"addInstructor"})
+    public String addInstructor(Model model) {
+        Instructor instructor = new Instructor();
+        instructor.getOfficeHoursList().add(new OfficeHoursBlock());
+        instructor.getOfficeHoursList().add(new OfficeHoursBlock());
+        model.addAttribute(instructor);
+
+        return INSTRUCTOR_EDIT;
+    }
+
+    @PostMapping(value = "/create", params = {"commitInstructor"})
+    public String createInstructor(Instructor instructor, RedirectAttributes redirectAttributes) {
+        System.out.println("Saving instructor: " + instructor);
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
+        instructor.setOwner(student);
+        for (var ohb : instructor.getOfficeHoursList()) {
+            ohb.setInstructor(instructor);
+        }
+        instructorService.save(instructor);
+
+        redirectAttributes.addFlashAttribute("message", "Created Instructor");
+
+        return COURSE_CREATE_REDIRECT;
+    }
+
+    @PostMapping(value = "/create", params = {"save"})
+    public String createCourse(@Valid Course course) {
         courseService.addCourse(course);
 
         return "redirect:/course";
