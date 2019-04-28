@@ -9,100 +9,145 @@
 </head>
 <body>
 <main>
-    <div class="container">
-        <div class="card shadow border-0 mt-3">
-            <div class="card-header text-center">
-                <a class="btn btn-info float-left" href="#" th:href="@{/course/{id}/edit(id=${course.id})}">Edit
-                    Course</a>
-                <h2 class="d-inline" th:text="${course.title}"></h2>
-                <a class="btn btn-warning float-right" href="#" th:href="@{/course}">Back to Courses</a>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col">
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col">Course</th>
-                                <th scope="col">Code</th>
-                                <th scope="col">Grade</th>
-                                <th scope="col">Current Course</th>
-                                <th scope="col">Semester</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td th:text="${course.title}"></td>
-                                <td th:text="${course.code}"></td>
-                                <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
-                                <td th:text="${course.current}"></td>
-                                <td th:text="${course.semester.toString()}"></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
+    <form action="#" method="post" th:action="@{/course/{cid}(cid=${course.id})}" th:object="${course}">
+        <input hidden th:field="*{id}">
+        <input hidden th:field="*{student}">
+        <input hidden th:field="*{semester.id}">
+        <input hidden th:field="*{instructor.id}">
+        <div class="container">
+            <div class="card shadow border-0 mt-3">
+                <div class="card-header text-center">
+                    <a class="btn btn-info float-left" href="#"
+                       th:href="@{/course/{id}/edit(id=${course.id})}">Edit Details</a>
+                    <h2 class="d-inline" th:text="${course.title}"></h2>
+                    <button class="btn btn-success float-right" name="save" type="submit">Save</button>
+                    <!--                    <a class="btn btn-warning float-right" href="#" th:href="@{/course}">Back to Courses</a>-->
                 </div>
-
-                <!--/* Instructor Link */-->
-                <div class="row mb-3" th:if="${course.instructor != null}">
-                    <div class="col">
-                        <h4>Course Instructor: </h4>
-                        <span th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></span>
-                        <span th:text="'Tel: ' + ${course.instructor.phone}"></span>
-
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Course</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Current Course</th>
+                                    <th scope="col">Semester</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td th:text="${course.title}"></td>
+                                    <td th:text="${course.code}"></td>
+                                    <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
+                                    <td th:text="${course.current}"></td>
+                                    <td th:text="${course.semester.toString()}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col">
-                        <h4>Tests/Assignments</h4>
-                        <table class="table w-75">
-                            <thead>
-                            <tr>
-                                <th scope="col">Title</th>
-                                <th scope="col">Weight</th>
-                                <th scope="col">Grade</th>
-                                <th scope="col">Date</th>
-                                <th scope="col">Optional</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr th:each="gradeable : ${course.gradeables}">
-                                <td><a href="#" th:href="@{/rubric/{id}(id=3)}" th:text="${gradeable.title}"></a></td>
-                                <td th:text="${gradeable.weight}"></td>
-                                <td th:text="${gradeable.grade}"></td>
-                                <td th:text="${#dates.format(gradeable.dueDate, 'dd-MMM-yy')}"></td>
-                                <td th:text="${gradeable.optional}"></td>
-                            </tr>
-                            <tr>
-                                <th scope="row">Total</th>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <!--/* Instructor Link */-->
+                    <div class="row mb-3" th:if="${course.instructor != null}">
+                        <div class="col">
+                            <h4>Course Instructor: </h4>
+                            <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
+                               th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></a>
+                            <span th:text="'Tel: ' + ${course.instructor.phone}"></span>
+
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <h4>Documents & Handouts</h4>
-                        <a class="btn btn-success" href="#">Add Document</a>
-                        <div class="card-columns mt-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">Handout 1</h5>
+
+                    <div class="row">
+                        <div class="col">
+                            <h4>Tests/Assignments</h4>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Weight</th>
+                                    <th scope="col">Grade</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Optional</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="gradeable, stat : *{gradeables}">
+                                    <input hidden th:field="*{gradeables[__${stat.index}__].id}">
+                                    <input hidden th:field="*{gradeables[__${stat.index}__].owner}">
+                                    <input hidden th:field="*{gradeables[__${stat.index}__].course}">
+                                    <td>
+                                        <input class="form-control" placeholder="Name"
+                                               th:field="*{gradeables[__${stat.index}__].title}">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Weight"
+                                               th:field="*{gradeables[__${stat.index}__].weight}"
+                                               type="number">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Grade"
+                                               th:field="*{gradeables[__${stat.index}__].grade}"
+                                               type="number">
+                                    </td>
+                                    <td>
+                                        <input class="form-control" placeholder="Due Date"
+                                               th:field="*{gradeables[__${stat.index}__].dueDate}"
+                                               type="date">
+                                    </td>
+                                    <td>
+                                        <div class="custom-control custom-switch">
+                                            <input class="custom-control-input"
+                                                   th:field="*{gradeables[__${stat.index}__].optional}"
+                                                   th:id="'opt' + ${stat.index}"
+                                                   type="checkbox">
+                                            <label class="custom-control-label"
+                                                   th:for="'opt' + ${stat.index}"></label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-danger" name="delRow"
+                                                th:value="${stat.index}" type="submit">Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <button class="btn-sm btn-info" name="addRow" type="submit">Add Assignment
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h4>Documents & Handouts</h4>
+                            <a class="btn btn-sm btn-info" href="#">Add Document</a>
+                            <div class="card-columns mt-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Handout 1</h5>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!--                <img alt="" class="img-fluid mt-5" src="#" th:src="@{/images/course_mock.jpg}" width="500">-->
+                </div>
             </div>
         </div>
-    </div>
+    </form>
 
 </main>
 </body>

@@ -3,6 +3,7 @@ package net.nsnsns.ciscms.services;
 import net.nsnsns.ciscms.models.Instructor;
 import net.nsnsns.ciscms.models.Student;
 import net.nsnsns.ciscms.repos.InstructorRepository;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class InstructorService {
         this.instructorRepository = instructorRepository;
     }
 
+    @PostAuthorize("returnObject.get().owner.username == authentication.name")
     public Optional<Instructor> getInstructor(Integer id) {
         return instructorRepository.findById(id);
     }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -43,7 +44,7 @@ public class Course implements Serializable {
     @ToString.Exclude
     private Semester semester;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @ToString.Exclude
     private CourseWeekSchedule weekschedule = new CourseWeekSchedule();
 
@@ -56,7 +57,9 @@ public class Course implements Serializable {
     private Integer crn;
     private String building;
     private String room;
+    @DateTimeFormat(pattern = "kk:mm")
     private LocalTime startTime;
+    @DateTimeFormat(pattern = "kk:mm")
     private LocalTime endTime;
 
     private boolean isCurrent;

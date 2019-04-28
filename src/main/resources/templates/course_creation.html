@@ -11,9 +11,10 @@
 <main>
     <div class="container">
         <form action="#" method="post" th:action="@{/course/create}" th:object="${course}">
+            <input hidden readonly th:field="*{id}"/>
             <div class="card w-75">
                 <div class="card-body">
-                    <h3 class="card-title">Create Course</h3>
+                    <h3 class="card-title" th:text="${course.id == null} ? 'Create Course' : 'Edit Course'"></h3>
 
                     <div class="form-group">
                         <label for="semester">Semester</label>
@@ -117,7 +118,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" name="save" type="submit">Create</button>
+                    <button class="btn btn-primary" name="save" type="submit">Save</button>
                 </div>
             </div>
         </form>

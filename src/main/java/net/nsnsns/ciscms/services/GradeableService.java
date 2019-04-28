@@ -17,13 +17,13 @@ public class GradeableService {
         this.gradeableRepository = gradeableRepository;
     }
 
-    @PreAuthorize("#gradeable.course.student.username == authentication.name")
+    @PreAuthorize("#gradeable.owner.username == authentication.name")
     public void addGradeable(Gradeable gradeable) {
         this.gradeableRepository.save(gradeable);
     }
 
     @Transactional
-    @PostAuthorize("returnObject.course.student.username == authentication.name")
+    @PostAuthorize("returnObject.owner.username == authentication.name")
     public Gradeable getGradeable(Long id) {
         return gradeableRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Gradeable with id: " + id + "not found"));
     }

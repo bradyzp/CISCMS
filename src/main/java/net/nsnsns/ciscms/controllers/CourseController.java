@@ -1,19 +1,14 @@
 package net.nsnsns.ciscms.controllers;
 
 import net.nsnsns.ciscms.models.*;
-import net.nsnsns.ciscms.services.CourseService;
-import net.nsnsns.ciscms.services.InstructorService;
-import net.nsnsns.ciscms.services.SemesterService;
-import net.nsnsns.ciscms.services.StudentService;
+import net.nsnsns.ciscms.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.Optional;
 
 @Controller
@@ -21,7 +16,6 @@ import java.util.Optional;
 public class CourseController {
     private static final String COURSES_OVERVIEW = "courses";
     private static final String COURSE_DETAIL = "course_detail";
-    private static final String COURSE_EDIT = "course_edit";
     private static final String COURSE_CREATE = "course_creation";
     private static final String COURSE_REDIRECT = "redirect:/course";
     private static final String COURSES_REDIRECT = "redirect:/courses";
@@ -33,12 +27,15 @@ public class CourseController {
     private final StudentService studentService;
     private final SemesterService semesterService;
     private final InstructorService instructorService;
+    private final GradeableService gradeableService;
 
-    CourseController(CourseService courseService, StudentService studentService, SemesterService semesterService, InstructorService instructorService) {
+    CourseController(CourseService courseService, StudentService studentService, SemesterService semesterService,
+                     InstructorService instructorService, GradeableService gradeableService) {
         this.courseService = courseService;
         this.studentService = studentService;
         this.semesterService = semesterService;
         this.instructorService = instructorService;
+        this.gradeableService = gradeableService;
     }
 
     @GetMapping
@@ -71,25 +68,44 @@ public class CourseController {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         model.addAttribute("course", course);
         model.addAttribute("semesters", semesterService.getStudentSemesters(student));
+        model.addAttribute("instructors", instructorService.getStudentInstructors(student));
 
-        return COURSE_EDIT;
+        return COURSE_CREATE;
     }
 
-    @PostMapping(value = "/{cid}/edit", params = {"addRow"})
-    public String addGradeableRow(@PathVariable(name = "cid") Long courseId, Course course) {
-
+    @PostMapping(value = "/{cid}", params = {"addRow"})
+    public String addGradeableRow(@PathVariable(name = "cid") Integer courseId, Model model) {
+        final Course course = courseService.getCourse(courseId).orElseThrow();
         Gradeable g = new Gradeable();
         g.setCourse(course);
         g.setOwner(studentService.getAuthenticatedStudent().orElseThrow());
         course.getGradeables().add(g);
 
-        return COURSE_EDIT;
+        model.addAttribute(course);
+
+        return COURSE_DETAIL;
     }
 
-    @PostMapping(value = "/{cid}/edit")
-    public String saveCourse(@PathVariable(name = "cid") Long courseId, Course course) {
-        System.out.println("Saving course details");
-        courseService.saveCourse(course);
+    @PostMapping(value = "/{cid}", params = {"delRow"})
+    public String delGradeableRow(@PathVariable(name = "cid") Integer courseId, @RequestParam("delRow") Integer rowIndex, Model model) {
+        final Course course = courseService.getCourse(courseId).orElseThrow();
+        System.out.println("Removing row from course: " + rowIndex);
+        course.getGradeables().remove((int) rowIndex);
+
+        model.addAttribute(course);
+
+        return COURSE_DETAIL;
+    }
+
+    @PostMapping(value = "/{cid}")
+    public String saveGradeables(@PathVariable(name = "cid") Integer courseId, Course course) {
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
+
+        for (var gradeable : course.getGradeables()) {
+            gradeable.setOwner(student);
+            gradeable.setCourse(course);
+            gradeableService.addGradeable(gradeable);
+        }
 
         return "redirect:/course/" + courseId;
     }
@@ -142,7 +158,6 @@ public class CourseController {
 
     @PostMapping(value = "/create", params = {"commitInstructor"})
     public String createInstructor(Instructor instructor, RedirectAttributes redirectAttributes) {
-        System.out.println("Saving instructor: " + instructor);
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         instructor.setOwner(student);
         for (var ohb : instructor.getOfficeHoursList()) {
