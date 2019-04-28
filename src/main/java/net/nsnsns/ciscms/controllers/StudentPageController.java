@@ -7,11 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
-
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/profile")
 public class StudentPageController {
+    private static final String PROFILE = "user_profile";
 
     private final StudentService studentService;
 
@@ -27,14 +26,7 @@ public class StudentPageController {
 
     @GetMapping
     public String studentPage(Model model) {
-        return "studentpage";
-    }
-
-    @PostMapping
-    public String addCourse(@RequestParam(name = "addCourse") String addCourse) {
-        System.out.println("Adding course");
-
-        return "studentpage";
+        return PROFILE;
     }
 
 }

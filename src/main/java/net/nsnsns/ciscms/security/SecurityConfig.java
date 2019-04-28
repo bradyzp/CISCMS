@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/user/**", "/course/**", "/admin/**")
+                .antMatchers("/profile/**", "/course/**", "/instructor/**", "/admin/**")
                 .authenticated()
                 .antMatchers("/", "/**")
                 .permitAll()
@@ -70,13 +70,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().logoutSuccessUrl("/");
 
 
-        // DEVELOPMENT Options to allow H2 Database console
-        httpSecurity
-                .authorizeRequests()
-                .antMatchers("/h2/**")
-                .permitAll();
-        httpSecurity.csrf().disable();
-        httpSecurity.headers().frameOptions().disable();
+//        httpSecurity.csrf().disable();
+//        httpSecurity.headers().frameOptions().disable();
     }
 
 }

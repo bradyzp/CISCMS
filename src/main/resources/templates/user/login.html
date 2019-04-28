@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>login</title>
@@ -27,6 +27,12 @@
                 <div class="row mt-2">
                     <div class="col text-right">
                         <button class="btn btn-info" type="submit" value="login">Login</button>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                        Don't have an account? <a class="btn-link" href="#" sec:authorize="!isAuthenticated()"
+                                                  th:href="@{/register}">Sign up here</a>
                     </div>
                 </div>
             </form>

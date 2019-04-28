@@ -15,7 +15,9 @@
     <div class="container">
         <a class="navbar-brand" href="#" th:href="@{/}">NS3 CMS</a>
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item"><a class="nav-link" href="#" th:href="@{/course}">Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"
+                                    sec:authorize="isAuthenticated()"
+                                    th:href="@{/course}">Courses</a></li>
             <li class="nav-item"><a class="nav-link" href="#"
                                     sec:authorize="isAuthenticated()"
                                     th:href="@{/profile}">Profile</a></li>

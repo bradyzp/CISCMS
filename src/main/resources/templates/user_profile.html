@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      th:replace="layouts/basic :: layout(~{::main})"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Homepage</title>
+</head>
+<body>
+<main>
+    <div class="container">
+        <h2>User Profile</h2>
+
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title" th:text="${student.username}"></h3>
+            </div>
+        </div>
+
+
+    </div>
+
+</main>
+</body>
+</html>
