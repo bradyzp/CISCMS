@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Current Semester: <span>Semester Placeholder</span>
+                Current Semester: <span th:text="${semester.toString()}">Semester Placeholder</span>
 
             </div>
             <div class="col-sm-6">
@@ -34,6 +34,13 @@
                             <h4 class="card-title" th:text="${course.title}"></h4>
                         </a>
                         <h5 class="text-muted" th:text="${course.code}"></h5>
+
+                        <span th:text="${course.instructor.toString()}"></span>
+                        <span th:text="${course.building}"></span>
+                        <span th:text="${course.room}"></span>
+                        <br>
+                        <span th:text="${course.weekschedule}"></span>
+
                     </div>
                 </div>
 

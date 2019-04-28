@@ -10,4 +10,6 @@ public interface SemesterRepository extends JpaRepository<Semester, Integer> {
 
     Collection<Semester> getAllByOwner(Student owner);
 
+    Collection<Semester> getAllByOwnerOrderByStartDateDesc(Student owner);
+
 }

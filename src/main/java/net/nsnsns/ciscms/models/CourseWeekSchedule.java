@@ -21,4 +21,24 @@ public class CourseWeekSchedule {
     private boolean friday;
     private boolean saturday;
     private boolean sunday;
+
+    @Override
+    public String toString() {
+        StringBuilder repr = new StringBuilder();
+        if (monday)
+            repr.append("M");
+        if (tuesday)
+            repr.append("T");
+        if (wednesday)
+            repr.append("W");
+        if (thursday)
+            repr.append("Th");
+        if (friday)
+            repr.append("F");
+        if (saturday)
+            repr.append("S");
+        if (sunday)
+            repr.append("Su");
+        return repr.toString();
+    }
 }

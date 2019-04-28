@@ -23,6 +23,7 @@ public class CourseController {
     private static final String COURSE_DETAIL = "course_detail";
     private static final String COURSE_EDIT = "course_edit";
     private static final String COURSE_CREATE = "course_creation";
+    private static final String COURSE_REDIRECT = "redirect:/course";
     private static final String COURSES_REDIRECT = "redirect:/courses";
     private static final String COURSE_CREATE_REDIRECT = "redirect:/course/create";
     private static final String INSTRUCTOR_EDIT = "edit_instructor";
@@ -42,8 +43,10 @@ public class CourseController {
 
     @GetMapping
     public String courseOverview(Model model) {
-        model.addAttribute("student", studentService.getAuthenticatedStudent().orElseThrow());
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
+        model.addAttribute("student", student);
         model.addAttribute("courses", courseService.getCourses());
+        model.addAttribute("semester", semesterService.getLatestStudentSemester(student).orElse(null));
 
         return COURSES_OVERVIEW;
     }
@@ -104,16 +107,14 @@ public class CourseController {
     }
 
     @PostMapping(value = "/create", params = {"addSemester"})
-    public String addSemester(Course course, Model model) {
-
-//        model.addAttribute("course", course);
+    public String addSemester(Model model) {
         model.addAttribute("semester", new Semester());
 
         return SEMESTER_EDIT;
     }
 
     @PostMapping(value = "/create", params = {"createSemester"})
-    public String createSemester(Semester semester, Model model) {
+    public String createSemester(Semester semester) {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         semester.setOwner(student);
         semesterService.save(semester);
@@ -125,11 +126,19 @@ public class CourseController {
     public String addInstructor(Model model) {
         Instructor instructor = new Instructor();
         instructor.getOfficeHoursList().add(new OfficeHoursBlock());
+        model.addAttribute(instructor);
+
+        return INSTRUCTOR_EDIT;
+    }
+
+    @PostMapping(value = "/create", params = {"addOfficeHours"})
+    public String addOfficeHours(Instructor instructor, Model model) {
         instructor.getOfficeHoursList().add(new OfficeHoursBlock());
         model.addAttribute(instructor);
 
         return INSTRUCTOR_EDIT;
     }
+
 
     @PostMapping(value = "/create", params = {"commitInstructor"})
     public String createInstructor(Instructor instructor, RedirectAttributes redirectAttributes) {
@@ -150,6 +159,6 @@ public class CourseController {
     public String createCourse(@Valid Course course) {
         courseService.addCourse(course);
 
-        return "redirect:/course";
+        return COURSE_REDIRECT;
     }
 }

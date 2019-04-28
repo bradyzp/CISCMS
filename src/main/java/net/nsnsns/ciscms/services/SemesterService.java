@@ -6,6 +6,7 @@ import net.nsnsns.ciscms.repos.SemesterRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class SemesterService {
@@ -17,6 +18,11 @@ public class SemesterService {
 
     public Collection<Semester> getStudentSemesters(Student student) {
         return repository.getAllByOwner(student);
+    }
+
+    public Optional<Semester> getLatestStudentSemester(Student student) {
+        Collection<Semester> sems = repository.getAllByOwnerOrderByStartDateDesc(student);
+        return sems.stream().findFirst();
     }
 
     public void save(Semester semester) {

@@ -63,6 +63,15 @@
                                                th:field="*{officeHoursList[__${stat.index}__].endTime}" type="time">
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <button class="btn-sm btn-success" name="addOfficeHours" type="submit">
+                                            Add Availability
+                                        </button>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                             <a class="btn btn-danger mt-2" th:href="@{/course/create}" type="button">Cancel</a>
