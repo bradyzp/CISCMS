@@ -35,7 +35,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
         registry.addResourceHandler("/images/**").addResourceLocations("classpath:/images/");
-        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/");
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/css/").setCachePeriod(86400);
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
 
     }
@@ -43,7 +43,7 @@ public class WebMVCConfig implements WebMvcConfigurer {
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver resolver = new SpringResourceTemplateResolver();
-        resolver.setCacheable(false);
+        resolver.setCacheable(true);
         resolver.setPrefix("classpath:/templates/");
         resolver.setSuffix(".html");
         resolver.setCharacterEncoding("UTF-8");
