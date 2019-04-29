@@ -44,7 +44,7 @@ public class Course implements Serializable {
     @ToString.Exclude
     private Semester semester;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(cascade = CascadeType.ALL)
     @ToString.Exclude
     private CourseWeekSchedule weekschedule = new CourseWeekSchedule();
 

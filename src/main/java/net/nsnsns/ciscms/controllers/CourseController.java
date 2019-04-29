@@ -10,6 +10,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/course")
@@ -41,16 +43,21 @@ public class CourseController {
     @GetMapping
     public String courseOverview(Model model) {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
+        final Set<Course> courses = courseService.getCourses();
+        final Semester currentSemester = semesterService.getLatestStudentSemester(student).orElse(null);
         model.addAttribute("student", student);
-        model.addAttribute("courses", courseService.getCourses());
-        model.addAttribute("semester", semesterService.getLatestStudentSemester(student).orElse(null));
+        model.addAttribute("courses", courses);
+        model.addAttribute("semester", currentSemester);
 
         return COURSES_OVERVIEW;
     }
 
     @GetMapping("/{id}")
     public String courseDetail(@PathVariable(name = "id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         Optional<Course> course = courseService.getCourse(id);
+        Semester sem = semesterService.getLatestStudentSemester(student).orElseThrow();
+        model.addAttribute("latestSemester", sem);
 
         if (course.isPresent()) {
             model.addAttribute("course", course.get());
@@ -87,12 +94,12 @@ public class CourseController {
     }
 
     @PostMapping(value = "/{cid}", params = {"delRow"})
-    public String delGradeableRow(@PathVariable(name = "cid") Integer courseId, @RequestParam("delRow") Integer rowIndex, Model model) {
-        final Course course = courseService.getCourse(courseId).orElseThrow();
-        System.out.println("Removing row from course: " + rowIndex);
+    public String delGradeableRow(@PathVariable(name = "cid") Integer courseId, Course course, @RequestParam("delRow") Integer rowIndex, Model model) {
+        final Course course1 = courseService.getCourse(courseId).orElseThrow();
         course.getGradeables().remove((int) rowIndex);
+        course1.setGradeables(course.getGradeables());
 
-        model.addAttribute(course);
+        model.addAttribute(course1);
 
         return COURSE_DETAIL;
     }
@@ -112,7 +119,7 @@ public class CourseController {
 
 
     @GetMapping("/create")
-    public String createCourse(Model model) {
+    public String createNewCourse(Model model) {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
 
         model.addAttribute("course", new Course());
@@ -123,19 +130,23 @@ public class CourseController {
     }
 
     @PostMapping(value = "/create", params = {"addSemester"})
-    public String addSemester(Model model) {
+    public String addSemester(Model model, @RequestParam("addSemester") Integer cid) {
         model.addAttribute("semester", new Semester());
+        model.addAttribute("courseid", cid);
 
         return SEMESTER_EDIT;
     }
 
     @PostMapping(value = "/create", params = {"createSemester"})
-    public String createSemester(Semester semester) {
+    public String createSemester(Semester semester, @RequestParam("createSemester") Integer cid) {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         semester.setOwner(student);
         semesterService.save(semester);
 
-        return COURSE_CREATE_REDIRECT;
+        if (cid == null)
+            return COURSE_CREATE_REDIRECT;
+        else
+            return "redirect:/course/" + cid + "/edit";
     }
 
     @PostMapping(value = "/create", params = {"addInstructor"})

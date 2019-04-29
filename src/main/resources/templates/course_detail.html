@@ -21,7 +21,6 @@
                        th:href="@{/course/{id}/edit(id=${course.id})}">Edit Details</a>
                     <h2 class="d-inline" th:text="${course.title}"></h2>
                     <button class="btn btn-success float-right" name="save" type="submit">Save</button>
-                    <!--                    <a class="btn btn-warning float-right" href="#" th:href="@{/course}">Back to Courses</a>-->
                 </div>
                 <div class="card-body">
                     <div class="row mb-3">
@@ -41,7 +40,7 @@
                                     <td th:text="${course.title}"></td>
                                     <td th:text="${course.code}"></td>
                                     <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
-                                    <td th:text="${course.current}"></td>
+                                    <td th:text="${course.semester.id == latestSemester.id}"></td>
                                     <td th:text="${course.semester.toString()}"></td>
                                 </tr>
                                 </tbody>
@@ -66,7 +65,7 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col">Title</th>
+                                    <th scope="col">Title*</th>
                                     <th scope="col">Weight</th>
                                     <th scope="col">Grade</th>
                                     <th scope="col">Date</th>
@@ -81,7 +80,7 @@
                                     <input hidden th:field="*{gradeables[__${stat.index}__].course}">
                                     <td>
                                         <input class="form-control" placeholder="Name"
-                                               th:field="*{gradeables[__${stat.index}__].title}">
+                                               required th:field="*{gradeables[__${stat.index}__].title}">
                                     </td>
                                     <td>
                                         <input class="form-control" placeholder="Weight"
@@ -110,13 +109,14 @@
                                     </td>
                                     <td>
                                         <button class="btn btn-sm btn-outline-danger" name="delRow"
-                                                th:value="${stat.index}" type="submit">Delete
+                                                formnovalidate th:value="${stat.index}" type="submit">Delete
                                         </button>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <button class="btn-sm btn-info" name="addRow" type="submit">Add Assignment
+                                        <button class="btn btn-sm btn-info" formnovalidate name="addRow" type="submit">
+                                            Add Assignment
                                         </button>
                                     </td>
                                     <td></td>

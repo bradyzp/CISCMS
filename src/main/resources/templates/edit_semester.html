@@ -28,7 +28,9 @@
                             <label for="endDate">End Date:</label>
                             <input class="form-control" id="endDate" th:field="*{endDate}" type="date">
                             <a class="btn btn-danger mt-2" th:href="@{/course/create}" type="button">Cancel</a>
-                            <input class="btn btn-success mt-2" name="createSemester" type="submit" value="Create">
+                            <button class="btn btn-success mt-2" name="createSemester" th:value="${courseid}"
+                                    type="submit">Create
+                            </button>
                         </div>
                     </div>
                 </form>

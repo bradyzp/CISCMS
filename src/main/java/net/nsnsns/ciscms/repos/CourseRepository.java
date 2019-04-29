@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
-    @Query("select c from Course c where c.student.username = :#{principal.username}")
+    @Query("SELECT c FROM Course c WHERE c.student.username = :#{principal.username} ORDER BY c.semester.startDate DESC")
     Set<Course> getStudentCourses();
 
     @Query("SELECT c FROM Course c WHERE c.id = :id AND c.student.username = :#{principal.username}")

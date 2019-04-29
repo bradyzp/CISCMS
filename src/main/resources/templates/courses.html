@@ -19,7 +19,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                Current Semester: <span th:text="${semester.toString()}">Semester Placeholder</span>
+                <h4>Current Semester: <span th:text="${semester}">Semester Placeholder</span></h4>
 
             </div>
             <div class="col-sm-6">
@@ -28,7 +28,8 @@
         </div>
         <div class="row">
             <div class="col-md-6 d-flex align-items-stretch" th:each="course : ${courses}">
-                <div class="card my-2 flex-fill">
+                <div class="card my-2 flex-fill"
+                     th:classappend="${course.semester.id == semester.id}? 'border-success' : ''">
                     <div class="card-body">
                         <a href="#" th:href="@{/course/{id}(id=${course.id})}">
                             <h4 class="card-title" th:text="${course.title}"></h4>
@@ -40,12 +41,19 @@
                         <span th:text="${course.room}"></span>
                         <br>
                         <span th:text="${course.weekschedule}"></span>
+                        <h6 th:text="${course.semester}"></h6>
 
                     </div>
                 </div>
 
             </div>
         </div>
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+
     </div>
 </main>
 </body>
