@@ -14,6 +14,7 @@
             <div class="card-body">
                 <h4>Add New Semester</h4>
                 <form action="#" method="post" th:action="@{/course/create}" th:object="${semester}">
+                    <input hidden name="courseid" th:value="${courseid}">
                     <div class="row">
                         <div class="col">
                             <label for="year">Year:</label>

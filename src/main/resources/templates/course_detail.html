@@ -54,7 +54,8 @@
                             <h4>Course Instructor: </h4>
                             <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
                                th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></a>
-                            <span th:text="'Tel: ' + ${course.instructor.phone}"></span>
+                            <span th:if="${!course.instructor.phone.isBlank()}"
+                                  th:text="'Tel: ' + ${course.instructor.phone}"></span>
 
                         </div>
                     </div>
@@ -133,13 +134,14 @@
                     <div class="row">
                         <div class="col">
                             <h4>Documents & Handouts</h4>
-                            <a class="btn btn-sm btn-info" href="#">Add Document</a>
+                            <a class="btn btn-sm btn-info" href="#" onclick="alert('Feature not yet implemented');">Add
+                                Document</a>
                             <div class="card-columns mt-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Handout 1</h5>
-                                    </div>
-                                </div>
+                                <!--                                <div class="card">-->
+                                <!--                                    <div class="card-body">-->
+                                <!--                                        <h5 class="card-title"></h5>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
                             </div>
                         </div>
                     </div>

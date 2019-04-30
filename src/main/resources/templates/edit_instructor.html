@@ -14,6 +14,7 @@
             <div class="card-body">
                 <h4>Add New Instructor</h4>
                 <form action="#" method="post" th:action="@{/course/create}" th:object="${instructor}">
+                    <input hidden name="courseid" th:value="${courseid}">
                     <div class="row">
                         <div class="col">
                             <label for="title">Title:</label>
@@ -45,6 +46,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="block, stat : *{officeHoursList}">
+                                    <input hidden th:field="*{officeHoursList[__${stat.index}__].id}">
                                     <td>
                                         <select th:field="*{officeHoursList[__${stat.index}__].dayOfWeek}">
                                             <option value="MONDAY">Monday</option>
@@ -67,7 +69,7 @@
                                     <td></td>
                                     <td></td>
                                     <td>
-                                        <button class="btn-sm btn-success" name="addOfficeHours" type="submit">
+                                        <button class="btn btn-sm btn-success" name="addOfficeHours" type="submit">
                                             Add Availability
                                         </button>
                                     </td>

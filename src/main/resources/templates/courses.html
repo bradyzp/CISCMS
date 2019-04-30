@@ -11,8 +11,6 @@
 <main>
     <div class="container">
         <div class="row">
-        </div>
-        <div class="row">
             <div class="col text-center">
                 <h2>Course Overview</h2>
             </div>
@@ -34,26 +32,26 @@
                         <a href="#" th:href="@{/course/{id}(id=${course.id})}">
                             <h4 class="card-title" th:text="${course.title}"></h4>
                         </a>
-                        <h5 class="text-muted" th:text="${course.code}"></h5>
+                        <h5 class="text-muted">
+                            <span th:text="${course.code}"></span> (CRN <span th:text="${course.crn}"></span>)
+                        </h5>
 
-                        <span th:text="${course.instructor.toString()}"></span>
-                        <span th:text="${course.building}"></span>
-                        <span th:text="${course.room}"></span>
+                        <h6>
+                            <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
+                               th:text="${course.instructor.toString()}"></a>
+                        </h6>
+                        <span>Bldg/Rm: </span><span
+                            th:text="${course.building} + '&mdash;' + ${course.room}"></span>
                         <br>
-                        <span th:text="${course.weekschedule}"></span>
-                        <h6 th:text="${course.semester}"></h6>
+                        <span>Days/Time: </span><span th:text="${course.weekschedule}"></span> <span
+                            th:text="${course.startTime} + '&mdash;' + ${course.endTime}"></span>
+                        <br>
+                        <h6 class="mt-2" th:text="${course.semester}"></h6>
 
                     </div>
                 </div>
-
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-
-            </div>
-        </div>
-
     </div>
 </main>
 </body>

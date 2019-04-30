@@ -26,19 +26,21 @@ public class CourseWeekSchedule {
     public String toString() {
         StringBuilder repr = new StringBuilder();
         if (monday)
-            repr.append("M");
+            repr.append("M/");
         if (tuesday)
-            repr.append("T");
+            repr.append("T/");
         if (wednesday)
-            repr.append("W");
+            repr.append("W/");
         if (thursday)
-            repr.append("Th");
+            repr.append("Th/");
         if (friday)
-            repr.append("F");
+            repr.append("F/");
         if (saturday)
-            repr.append("S");
+            repr.append("S/");
         if (sunday)
-            repr.append("Su");
+            repr.append("Su/");
+        repr.deleteCharAt(repr.length() - 1);
+
         return repr.toString();
     }
 }

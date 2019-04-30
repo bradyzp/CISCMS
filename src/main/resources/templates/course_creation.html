@@ -26,9 +26,8 @@
                                 </option>
                             </select>
                             <div class="input-group-append">
-                                <button class="btn btn-info" formnovalidate name="addSemester" th:value="${course.id}"
-                                        type="submit">Add
-                                    Semester
+                                <button class="btn btn-info" formnovalidate name="addSemester" type="submit">
+                                    Add Semester
                                 </button>
                             </div>
                         </div>
@@ -120,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="btn btn-primary" name="save" type="submit">Save</button>
+                    <button class="btn btn-primary float-right" name="save" type="submit">Save</button>
                     <a class="btn btn-danger float-right" th:href="@{/course}" th:if="${course.id == null}">Cancel</a>
                     <a class="btn btn-danger float-right" th:href="@{/course/{cid}(cid=${course.id})}"
                        th:if="${course.id != null}">Cancel</a>
