@@ -33,9 +33,9 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="instructor">Instructor</label>
+                        <label for="instructor">Instructor*</label>
                         <div class="input-group">
-                            <select class="form-control" id="instructor" th:field="*{instructor.id}">
+                            <select class="form-control" id="instructor" required th:field="*{instructor.id}">
                                 <option th:each="instructor : ${instructors}"
                                         th:text="${instructor.toString()}"
                                         th:value="${instructor.id}">Instructor Option

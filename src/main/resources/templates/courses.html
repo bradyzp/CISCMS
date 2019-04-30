@@ -17,7 +17,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <h4>Current Semester: <span th:text="${semester}">Semester Placeholder</span></h4>
+                <h4>Current Semester: <span th:text="${latestSemester}">Semester Placeholder</span></h4>
 
             </div>
             <div class="col-sm-6">
@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-md-6 d-flex align-items-stretch" th:each="course : ${courses}">
                 <div class="card my-2 flex-fill"
-                     th:classappend="${course.semester.id == semester.id}? 'border-success' : ''">
+                     th:classappend="${course.semester.id == latestSemester.id}? 'border-success' : ''">
                     <div class="card-body">
                         <a href="#" th:href="@{/course/{id}(id=${course.id})}">
                             <h4 class="card-title" th:text="${course.title}"></h4>
@@ -38,7 +38,8 @@
 
                         <h6>
                             <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
-                               th:text="${course.instructor.toString()}"></a>
+                               th:if="${course.instructor != null}"
+                               th:text="${course.instructor}"></a>
                         </h6>
                         <span>Bldg/Rm: </span><span
                             th:text="${course.building} + '&mdash;' + ${course.room}"></span>

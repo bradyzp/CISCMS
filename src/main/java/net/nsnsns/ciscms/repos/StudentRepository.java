@@ -9,7 +9,7 @@ import java.util.Optional;
 
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-    Student findStudentByUsername(String username);
+    Optional<Student> findStudentByUsername(String username);
 
     @Query("select s from Student s where s.username = :#{principal.username}")
     Optional<Student> getAuthenticatedStudent();

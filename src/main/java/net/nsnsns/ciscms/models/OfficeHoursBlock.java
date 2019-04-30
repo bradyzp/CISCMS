@@ -9,12 +9,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Data
 @NoArgsConstructor
 public class OfficeHoursBlock implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("kk:mm");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,5 +33,10 @@ public class OfficeHoursBlock implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private DayOfWeek dayOfWeek;
+
+    @Override
+    public String toString() {
+        return dayOfWeek.toString() + " " + startTime.format(formatter) + " - " + endTime.format(formatter);
+    }
 
 }

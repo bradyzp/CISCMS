@@ -23,4 +23,8 @@ public class StudentService {
     public Optional<Student> getAuthenticatedStudent() {
         return studentRepository.getAuthenticatedStudent();
     }
+
+    public boolean isRegistered(String username) {
+        return studentRepository.findStudentByUsername(username).isPresent();
+    }
 }

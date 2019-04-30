@@ -41,17 +41,15 @@ public class CourseController {
     @ModelAttribute("latestSemester")
     public Semester modelLatestSemester() {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
-        return semesterService.getLatestStudentSemester(student).orElseThrow();
+        return semesterService.getLatestStudentSemester(student).orElse(null);
     }
 
     @GetMapping
     public String courseOverview(Model model) {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
         final Set<Course> courses = courseService.getCourses();
-        final Semester currentSemester = semesterService.getLatestStudentSemester(student).orElse(null);
         model.addAttribute("student", student);
         model.addAttribute("courses", courses);
-        model.addAttribute("semester", currentSemester);
 
         return COURSES_OVERVIEW;
     }

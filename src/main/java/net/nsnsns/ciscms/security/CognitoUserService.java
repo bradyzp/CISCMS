@@ -106,6 +106,15 @@ public class CognitoUserService {
         CognitoUser user;
         if (response.authenticationResult() != null) {
             var userDetails = getUser(response.authenticationResult().accessToken());
+            if (!studentService.isRegistered(userDetails.username())) {
+                log.warn("User is authenticated, but does not exist in student database, creating new entity");
+                Student student = Student.builder()
+                        .username(userDetails.username())
+                        .email(userDetails.getValueForField("email", String.class).orElse(""))
+                        .build();
+                studentService.registerStudent(student);
+            }
+
             log.info("User has authenticated, no further challenges required");
             AuthenticationResultType authResult = response.authenticationResult();
             // TODO: Get user groups via AdminListGroupsForUser

@@ -25,6 +25,7 @@ public class Instructor {
     private String officeLocation;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL)
+    @OrderBy("dayOfWeek asc")
     @ToString.Exclude
     private List<OfficeHoursBlock> officeHoursList = new ArrayList<>();
 

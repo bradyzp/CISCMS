@@ -49,17 +49,19 @@
                     </div>
 
                     <!--/* Instructor Link */-->
-                    <div class="row mb-3" th:if="${course.instructor != null}">
-                        <div class="col">
-                            <h4>Course Instructor: </h4>
-                            <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
-                               th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></a>
-                            <span th:if="${!course.instructor.phone.isBlank()}"
-                                  th:text="'Tel: ' + ${course.instructor.phone}"></span>
+                    <th:block th:if="${course.instructor != null}">
 
+                        <div class="row mb-3">
+                            <div class="col">
+                                <h4>Course Instructor: </h4>
+                                <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
+                                   th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></a>
+                                <!--                                <span th:if="${!course.instructor.phone.isBlank()}"-->
+                                <!--                                      th:text="'Tel: ' + ${course.instructor.phone}"></span>-->
+                            </div>
                         </div>
-                    </div>
 
+                    </th:block>
                     <div class="row">
                         <div class="col">
                             <h4>Tests/Assignments</h4>
