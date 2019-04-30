@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/course")
@@ -45,10 +47,22 @@ public class CourseController {
     }
 
     @GetMapping
-    public String courseOverview(Model model) {
+    public String courseOverview(Model model, @RequestParam(value = "sid", required = false) Integer semesterId) {
         final Student student = studentService.getAuthenticatedStudent().orElseThrow();
-        final Set<Course> courses = courseService.getCourses();
+
         model.addAttribute("student", student);
+        model.addAttribute("semesters", semesterService.getStudentSemesters(student));
+
+        final Set<Course> courses;
+        if (semesterId != null) {
+            courses = courseService.getCourses().stream()
+                    .filter(course -> course.getSemester().getId().equals(semesterId))
+                    .collect(Collectors.toSet());
+            model.addAttribute("semester", semesterId);
+
+        } else {
+            courses = courseService.getCourses();
+        }
         model.addAttribute("courses", courses);
 
         return COURSES_OVERVIEW;

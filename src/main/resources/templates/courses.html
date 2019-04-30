@@ -16,8 +16,24 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-6">
-                <h4>Current Semester: <span th:text="${latestSemester}">Semester Placeholder</span></h4>
+            <div class="col-sm-4">
+                <form method="get" th:action="@{/course}">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Semester: </span>
+                            </div>
+                            <select class="form-control" id="semester" onchange="submit();" th:name="sid">
+                                <option th:selected="${semester == null}" th:value="null">All</option>
+                                <option th:each="sem : ${semesters}"
+                                        th:selected="${sem.id == semester}"
+                                        th:text="${sem.toString()}"
+                                        th:value="${sem.id}"></option>
+                            </select>
+
+                        </div>
+                    </div>
+                </form>
 
             </div>
             <div class="col-sm-6">
