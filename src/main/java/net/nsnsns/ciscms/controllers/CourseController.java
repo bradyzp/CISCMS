@@ -82,14 +82,15 @@ public class CourseController {
     }
 
     @PostMapping(value = "/{cid}", params = {"addRow"})
-    public String addGradeableRow(@PathVariable(name = "cid") Integer courseId, Model model) {
-        final Course course = courseService.getCourse(courseId).orElseThrow();
+    public String addGradeableRow(@PathVariable(name = "cid") Integer courseId, Course course, Model model) {
+        final Course course1 = courseService.getCourse(courseId).orElseThrow();
         Gradeable g = new Gradeable();
         g.setCourse(course);
         g.setOwner(studentService.getAuthenticatedStudent().orElseThrow());
         course.getGradeables().add(g);
+        course1.setGradeables(course.getGradeables());
 
-        model.addAttribute(course);
+        model.addAttribute(course1);
 
         return COURSE_DETAIL;
     }

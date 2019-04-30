@@ -3,6 +3,7 @@ package net.nsnsns.ciscms.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -23,7 +24,9 @@ public class OfficeHoursBlock implements Serializable {
     @ToString.Exclude
     private Instructor instructor;
 
+    @DateTimeFormat(pattern = "kk:mm")
     private LocalTime startTime;
+    @DateTimeFormat(pattern = "kk:mm")
     private LocalTime endTime;
 
     @Enumerated(EnumType.STRING)
