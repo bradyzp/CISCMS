@@ -117,7 +117,6 @@ public class CognitoUserService {
 
             log.info("User has authenticated, no further challenges required");
             AuthenticationResultType authResult = response.authenticationResult();
-            // TODO: Get user groups via AdminListGroupsForUser
             user = new CognitoUser(userDetails.username(), null, Collections.singleton(STUDENT_AUTH));
             return new UsernamePasswordAuthenticationToken(user, authResult.accessToken(), user.getAuthorities());
 
