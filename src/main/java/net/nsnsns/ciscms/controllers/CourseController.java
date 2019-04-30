@@ -153,7 +153,6 @@ public class CourseController {
     @PostMapping(value = "/create", params = {"addInstructor"})
     public String addInstructor(Model model, Course course) {
         Instructor instructor = new Instructor();
-        instructor.getOfficeHoursList().add(new OfficeHoursBlock());
 
         model.addAttribute(instructor);
         model.addAttribute("courseid", course.getId());
