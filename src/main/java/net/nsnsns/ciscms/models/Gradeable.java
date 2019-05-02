@@ -3,6 +3,7 @@ package net.nsnsns.ciscms.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,9 +22,11 @@ public class Gradeable {
     private Integer id;
 
     @ManyToOne
+    @ToString.Exclude
     private Course course;
 
     @ManyToOne
+    @ToString.Exclude
     private Student owner;
 
     private String title;

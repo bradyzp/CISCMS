@@ -9,11 +9,7 @@
 </head>
 <body>
 <main>
-    <form action="#" method="post" th:action="@{/course/{cid}(cid=${course.id})}" th:object="${course}">
-        <input hidden th:field="*{id}">
-        <input hidden th:field="*{student}">
-        <input hidden th:field="*{semester.id}">
-        <input hidden th:field="*{instructor.id}">
+    <form action="#" method="post" th:action="@{/course/{cid}(cid=${course.id})}" th:object="${gradeables}">
         <div class="container">
             <div class="card shadow border-0 mt-3">
                 <div class="card-header text-center">
@@ -56,12 +52,42 @@
                                 <h4>Course Instructor: </h4>
                                 <a th:href="@{/instructor/{id}(id=${course.instructor.id})}"
                                    th:text="${course.instructor.title} + ' ' + ${course.instructor.lastName}"></a>
-                                <!--                                <span th:if="${!course.instructor.phone.isBlank()}"-->
-                                <!--                                      th:text="'Tel: ' + ${course.instructor.phone}"></span>-->
                             </div>
                         </div>
 
                     </th:block>
+
+                    <div class="row">
+                        <div class="col">
+                            <h4>Syllabi</h4>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th scope="col">Version</th>
+                                    <th scope="col">Document</th>
+                                    <th scope="col">Comment</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="syl : ${course.syllabi}">
+                                    <td th:text="${syl.version}"></td>
+                                    <td>
+                                        <a th:href="@{/course/docs/syllabus/{id}(id=${syl.document.getId()})}"
+                                           th:text="${syl.document.title}"></a>
+                                    </td>
+                                    <td th:text="${syl.comment}"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <button class="btn btn-sm btn-info" name="syl" type="submit">Add Syllabus
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col">
                             <h4>Tests/Assignments</h4>
@@ -139,11 +165,6 @@
                             <a class="btn btn-sm btn-info" href="#" onclick="alert('Feature not yet implemented');">Add
                                 Document</a>
                             <div class="card-columns mt-3">
-                                <!--                                <div class="card">-->
-                                <!--                                    <div class="card-body">-->
-                                <!--                                        <h5 class="card-title"></h5>-->
-                                <!--                                    </div>-->
-                                <!--                                </div>-->
                             </div>
                         </div>
                     </div>
