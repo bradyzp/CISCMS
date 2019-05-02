@@ -6,6 +6,7 @@ import net.nsnsns.ciscms.repos.InstructorRepository;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,9 +18,13 @@ public class InstructorService {
         this.instructorRepository = instructorRepository;
     }
 
+    @Transactional
     @PostAuthorize("returnObject.get().owner.username == authentication.name")
     public Optional<Instructor> getInstructor(Integer id) {
-        return instructorRepository.findById(id);
+        Optional<Instructor> instructor = instructorRepository.findById(id);
+        instructor.ifPresent(value -> value.getOfficeHoursList().size());
+        return instructor;
+
     }
 
     public List<Instructor> getStudentInstructors(Student student) {

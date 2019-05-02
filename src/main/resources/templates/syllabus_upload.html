@@ -12,7 +12,7 @@
     <div class="container">
 
         <div class="row">
-            <div class="col">
+            <div class="col-sm-6 mx-auto">
                 <div class="card">
 
                     <div class="card-body">
@@ -21,9 +21,14 @@
                         </h3>
                         <form enctype="multipart/form-data" method="post" th:action="@{/course/docs/upload}">
                             <input hidden th:name="cid" th:value="${courseId}" type="number">
-                            <input id="file" name="file" type="file">
-                            <label for="comment">Comment:</label>
-                            <input class="form-control" id="comment" th:name="comment" type="text">
+                            <div class="form-group">
+                                <input id="file" name="file" type="file">
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <input class="form-control w-75" id="comment" th:name="comment" type="text">
+                            </div>
+                            <a class="btn btn-danger mx-1" th:href="@{/course/{cid}(cid=${courseId})}">Cancel</a>
                             <button class="btn btn-success" name="syl" type="submit">Upload</button>
                         </form>
                     </div>

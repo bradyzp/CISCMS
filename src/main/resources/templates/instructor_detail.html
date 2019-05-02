@@ -12,15 +12,31 @@
     <div class="container">
         <h2>Instructor Profile</h2>
 
-        <div class="card">
-            <div class="card-body">
-                <span th:text="${instructor.lastName}"></span>
-
-
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4>
+                            <span th:text="${instructor.title} + ' ' + ${instructor.lastName} + ', ' + ${instructor.firstName}"></span>
+                        </h4>
+                        <span th:if="${!instructor.phone.isBlank()}"
+                              th:text="'Tel: ' + ${instructor.phone}"></span>
+                        <br>
+                        <span>Email: <a th:href="'mailto: ' + ${instructor.email}"
+                                        th:text="${instructor.email}"></a></span>
+                        <br>
+                        <span th:text="'Office: ' + ${instructor.officeLocation}"></span>
+                        <hr>
+                        <br>
+                        <h6>Office Hours:</h6>
+                        <ul>
+                            <li th:each="block : ${instructor.officeHoursList}"
+                                th:text="${block.dayOfWeek} + ': ' + ${block.startTime} + ' - ' + ${block.endTime}"></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-
-
     </div>
 
 </main>
