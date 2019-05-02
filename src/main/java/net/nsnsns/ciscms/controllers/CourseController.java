@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,6 @@ public class CourseController {
     private static final String COURSE_DETAIL = "course_detail";
     private static final String COURSE_CREATE = "course_creation";
     private static final String COURSE_REDIRECT = "redirect:/course";
-    private static final String COURSES_REDIRECT = "redirect:/courses";
     private static final String COURSE_CREATE_REDIRECT = "redirect:/course/create";
     private static final String INSTRUCTOR_EDIT = "edit_instructor";
     private static final String SEMESTER_EDIT = "edit_semester";
@@ -31,26 +29,17 @@ public class CourseController {
     private final SemesterService semesterService;
     private final InstructorService instructorService;
     private final GradeableService gradeableService;
+    private final SyllabusService syllabusService;
 
-    @GetMapping("/{id}")
-    public String courseDetail(@PathVariable(name = "id") Integer id, Model model) {
-        final Course course = courseService.getCourse(id).orElseThrow();
-
-        model.addAttribute("course", course);
-        GradeableContainer gradeables = new GradeableContainer(course.getGradeables());
-        System.out.println("There are " + gradeables.getGradeables().size() + " gradeables");
-        model.addAttribute("gradeables", gradeables);
-
-        return COURSE_DETAIL;
-    }
 
     CourseController(CourseService courseService, StudentService studentService, SemesterService semesterService,
-                     InstructorService instructorService, GradeableService gradeableService) {
+                     InstructorService instructorService, GradeableService gradeableService, SyllabusService syllabusService) {
         this.courseService = courseService;
         this.studentService = studentService;
         this.semesterService = semesterService;
         this.instructorService = instructorService;
         this.gradeableService = gradeableService;
+        this.syllabusService = syllabusService;
     }
 
     @ModelAttribute("latestSemester")
@@ -79,6 +68,20 @@ public class CourseController {
         model.addAttribute("courses", courses);
 
         return COURSES_OVERVIEW;
+    }
+
+    @GetMapping("/{id}")
+    public String courseDetail(@PathVariable(name = "id") Integer id, Model model) {
+        final Course course = courseService.getCourse(id).orElseThrow();
+        final List<CourseSyllabus> syllabi = syllabusService.getSyllabusForCourse(course.getId());
+
+        model.addAttribute("course", course);
+        model.addAttribute("syllabi", syllabi);
+
+        GradeableContainer gradeables = new GradeableContainer(course.getGradeables());
+        model.addAttribute("gradeables", gradeables);
+
+        return COURSE_DETAIL;
     }
 
     @PostMapping(value = "/{cid}", params = {"addRow"})
@@ -214,7 +217,6 @@ public class CourseController {
     @PostMapping(value = "/{cid}", params = {"syl"})
     public String uploadSylabus(Course course, @PathVariable("cid") Integer cid, Model model) {
         model.addAttribute("courseId", cid);
-
 
         return "syllabus_upload";
     }

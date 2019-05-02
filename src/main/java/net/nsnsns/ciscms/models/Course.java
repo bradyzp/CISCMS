@@ -48,7 +48,8 @@ public class Course implements Serializable {
     @ToString.Exclude
     private CourseWeekSchedule weekschedule = new CourseWeekSchedule();
 
-    @OneToMany(mappedBy = "course", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "course")
+    @ToString.Exclude
     private List<CourseSyllabus> syllabi = new ArrayList<>();
 
     /**

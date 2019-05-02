@@ -69,7 +69,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr th:each="syl : ${course.syllabi}">
+                                <tr th:each="syl : ${syllabi}">
                                     <td th:text="${syl.version}"></td>
                                     <td>
                                         <a th:href="@{/course/docs/syllabus/{id}(id=${syl.document.getId()})}"
