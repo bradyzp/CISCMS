@@ -2,30 +2,34 @@ package net.nsnsns.ciscms.models;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity
 @Data
 @NoArgsConstructor
-public class Document {
+public class CourseSyllabus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    private Student owner;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ToString.Exclude
+    private Document document;
 
-    private String title;
-    private String filename;
-    private String contentType;
-    private String contentUrl;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    private Course course;
 
-    private byte[] content;
+    private Date syllabusDate;
+
+    private Integer version;
+    private String comment;
 
     @CreationTimestamp
     private Timestamp created;
-
 }
