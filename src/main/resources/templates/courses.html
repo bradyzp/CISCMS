@@ -45,8 +45,9 @@
                 <div class="card my-2 flex-fill"
                      th:classappend="${course.semester.id == latestSemester.id}? 'border-success' : ''">
                     <div class="card-body">
+                        <h4 class="float-right" th:text="${course.letterGrade}"></h4>
                         <a href="#" th:href="@{/course/{id}(id=${course.id})}">
-                            <h4 class="card-title" th:text="${course.title}"></h4>
+                            <h4 class="card-title d-inline-block" th:text="${course.title}"></h4>
                         </a>
                         <h5 class="text-muted">
                             <span th:text="${course.code}"></span> (CRN <span th:text="${course.crn}"></span>)

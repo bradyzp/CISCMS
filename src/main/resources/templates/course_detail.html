@@ -35,7 +35,8 @@
                                 <tr>
                                     <td th:text="${course.title}"></td>
                                     <td th:text="${course.code}"></td>
-                                    <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>
+                                    <!--                                    <td th:text="${#numbers.formatPercent(course.currentGrade, 2, 2)}"></td>-->
+                                    <td th:text="${#numbers.formatPercent(course.weightedCurrentGrade, 2, 2)}"></td>
                                     <td th:text="${course.semester.id == latestSemester.id}"></td>
                                     <td th:text="${course.semester.toString()}"></td>
                                 </tr>

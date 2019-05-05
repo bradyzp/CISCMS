@@ -18,4 +18,10 @@ public class GradeableService {
         this.gradeableRepository.save(gradeable);
     }
 
+    public void delGradeable(Integer id) {
+        System.out.println("Deleting gradeable");
+        gradeableRepository.deleteById(id);
+        gradeableRepository.flush();
+    }
+
 }

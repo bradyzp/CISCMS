@@ -105,7 +105,11 @@ public class CourseController {
                                   GradeableContainer gradeables,
                                   Model model) {
         final Course course = courseService.getCourse(courseId).orElseThrow();
-        gradeables.remove(rowIndex);
+        Gradeable g = gradeables.remove(rowIndex);
+        if (g.getId() != null) {
+            System.out.println("Deleting gradeable from repos with id: " + g.getId());
+            gradeableService.delGradeable(g.getId());
+        }
 
         model.addAttribute(course);
         model.addAttribute("gradeables", gradeables);
